@@ -1,0 +1,16 @@
+.red {
+  background-color: rgb(206, 30, 30);
+  border-color: rgb(206, 30, 30);
+}
+
+.red:hover {
+  background-color: rgb(148, 24, 24);
+}
+
+.result-box {
+  height: 50px;
+  background-color: bisque;
+  border-radius: 10px;
+  text-align: right;
+  padding: 15px;
+}
