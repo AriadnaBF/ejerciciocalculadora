@@ -7,33 +7,31 @@ import { ShowHistory } from "./components/ShowHistory";
 import { Container, Col, Row, ButtonGroup } from "reactstrap";
 
 function App() {
-  const [result, setResult] = useState("");
   const [expression, setExpression] = useState("");
   const [history, setHistory] = useState([]);
   const [multiple, setMultiple] = useState("");
+  let result = "";
 
   const handleExpression = (event) => {
     const resultvalue = result;
-    setResult("");
     setExpression(resultvalue + expression + event.target.value);
   };
 
   const handleResult = () => {
-    if (!expression.match(/\d+[+-]\d/)) {
+    if (expression === "") {
       return;
     }
+    result = eval(multiple + "+" + expression);
 
-    let showresult = eval(expression);
-    setResult(showresult);
+    setHistory([...history, `${multiple} + ${expression} = ${result}`]);
 
-    setHistory([...history, `${expression} = ${showresult}`]);
-    setMultiple(multiple + expression);
+    setMultiple(`${multiple} + ${expression}`);
     setExpression("");
   };
 
   const resetCalculator = () => {
     setExpression("");
-    setResult("");
+    result = "";
     setMultiple("");
     setHistory([]);
   };
@@ -41,11 +39,8 @@ function App() {
   return (
     <Container>
       <Row>
-        <Col xs="4" className="mx-auto">
-          <Row className="d-flex flex-column">
-            <div>
-              <ShowHistory history={history} />
-            </div>
+        <Col xs="4" className="mx-auto mt-5">
+          <Row className="d-flex flex-column ">
             <div>
               <Result
                 operation={expression}
@@ -53,9 +48,7 @@ function App() {
                 className="rounded"
               />
             </div>
-          </Row>
 
-          <Row className="d-flex flex-column ">
             <ButtonGroup>
               <CalcButton buttonaction={handleExpression} value={7} />
               <CalcButton buttonaction={handleExpression} value={8} />
@@ -85,6 +78,9 @@ function App() {
               <CalcButton buttonaction={handleExpression} value={0} />
               <CalcButton buttonaction={handleResult} value={"="} />
             </ButtonGroup>
+            <div>
+              <ShowHistory history={history} />
+            </div>
           </Row>
         </Col>
       </Row>
